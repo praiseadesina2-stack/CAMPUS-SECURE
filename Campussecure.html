@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>CampusSecure | Lost & Found</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app" role="application" aria-label="CampusSecure demo">
+    <aside class="sidebar" aria-hidden="false">
+      <div class="brand">
+        <div class="logo">CS</div>
+        <div>
+          <h1>CampusSecure</h1>
+          <div class="small">Lost & Found • On Campus</div>
+        </div>
+      </div>
+      <nav class="menu" role="navigation" aria-label="Main navigation">
+        <button class="active" onclick="show('browse')">Dashboard</button>
+        <button onclick="show('report')">Report Found Item</button>
+        <button onclick="show('search')">Search Lost Item</button>
+        <button onclick="show('notifications')">Notifications</button>
+        <button onclick="show('profile')">Profile</button>
+      </nav>
+      <div class="profile">
+        <div class="avatar">PA</div>
+        <div>
+          <div style="font-weight:700;color:rgb(0, 0, 0)">Praise Adewale</div>
+          <div class="small">Student • CS Dept</div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main" id="main">
+      <div class="top">
+        <div class="search">
+          <input id="q" placeholder="Search for lost items, e.g., 'black backpack', 'ID'..." oninput="filter()" />
+        </div>
+        <div class="cta">
+          <button class="btn-primary" onclick="openReport()">Report Found</button>
+        </div>
+      </div>
+
+      <div class="hero" style="margin-top:16px">
+        <div class="left">
+          <div class="tag">Pilot • Covenant University</div>
+          <h2 style="margin:8px 0 6px 0">Find lost items faster — smarter campus recovery</h2>
+          <p style="margin:0;color:var(--muted)">Report found items in under 30s. Verify ownership securely. Reward honest finders. Try the demo below.</p>
+        </div>
+        <div class="right">
+          <img src="https://media.istockphoto.com/id/463216215/photo/bible-study.webp?a=1&b=1&s=612x612&w=0&k=20&c=CnJI7kZ7HOhqzZxRxtXb1ZgmHQQjAacjIDWVf3y4eGk=" alt="Backpack">
+        </div>
+      </div>
+
+      <div class="stats">
+        <div class="stat"><h3>Total items reported</h3><p id="stat-items">0</p></div>
+        <div class="stat"><h3>Returned to owners</h3><p id="stat-returned">84</p></div>
+        <div class="stat"><h3>Average time to return</h3><p id="stat-time">18 hrs</p></div>
+      </div>
+
+      <section id="browse">
+        <h3 style="margin-top:18px">Recent Found Items</h3>
+        <div class="grid" id="grid"></div>
+      </section>
+
+      <section id="report" style="display:none">
+        <h3>Report Found Item</h3>
+        <form id="reportForm" onsubmit="submitReport(event)" style="margin-top:12px;display:grid;grid-template-columns:1fr 260px;gap:12px">
+          <div>
+            <label style="font-weight:700">Item title</label><br>
+            <input id="title" required style="width:100%;padding:12px;border-radius:10px;border:1px solid rgba(12,18,30,0.06)"><br><br>
+            <label style="font-weight:700">Description</label><br>
+            <textarea id="desc" rows="5" style="width:100%;padding:12px;border-radius:10px;border:1px solid rgba(12,18,30,0.06)"></textarea>
+            <div style="margin-top:10px;display:flex;gap:8px;align-items:center">
+              <label style="font-weight:700">Category</label>
+              <select id="cat" style="padding:8px;border-radius:8px">
+                <option>Electronics</option><option>Documents</option><option>Clothing</option><option>Accessories</option><option>Other</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label style="font-weight:700">Upload photo</label><br>
+            <div id="uploader" style="margin-top:8px;border-radius:10px;height:180px;display:flex;align-items:center;justify-content:center;border:2px dashed rgba(12,18,30,0.06);background:#fff">
+              <input id="photo" type="file" accept="image/*" style="opacity:0;position:absolute;height:180px;width:220px;cursor:pointer" onchange="preview(event)">
+              <div style="text-align:center;color:var(--muted)">Click to upload or drag photo<br><small>Max 5MB</small></div>
+            </div>
+            <div style="margin-top:12px;display:flex;gap:10px;">
+              <button class="btn-primary" style="flex:1" type="submit">Submit report</button>
+              <button class="btn-close" style="flex:1" type="button" onclick="show('browse')">Cancel</button>
+            </div>
+          </div>
+        </form>
+      </section>
+
+      <section id="search" style="display:none">
+        <h3>Search Lost Items</h3>
+        <p style="color:var(--muted)">Use the search box to filter items by title, location or category.</p>
+      </section>
+
+      <section id="notifications" style="display:none">
+        <h3>Notifications</h3>
+        <p style="color:var(--muted)">You have no notifications yet. When an item matching your profile is found you will be alerted here.</p>
+      </section>
+
+      <section id="profile" style="display:none">
+        <h3>Your Profile</h3>
+        <p style="color:#111827">Name: Praise Adewale<br>Role: Student<br>Points: <strong id="points">120</strong></p>
+      </section>
+
+    </main>
+  </div>
+
+  <div class="overlay" id="overlay" role="dialog" aria-modal="true">
+    <div class="modal" id="modal">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <h3 id="modal-title">Item</h3>
+        <div>
+          <button class="btn btn-close" onclick="closeModal()">Close</button>
+        </div>
+      </div>
+      <div class="modal-grid">
+        <div style="border-radius:10px;overflow:hidden">
+          <img id="modal-img" src="" style="width:100%;height:280px;object-fit:cover;border-radius:10px">
+        </div>
+        <div>
+          <p id="modal-desc" style="color:var(--muted)"></p>
+          <p style="margin-top:14px"><strong>Found at:</strong> <span id="modal-loc"></span></p>
+          <p style="margin-top:8px"><strong>Reported by:</strong> <span id="modal-by"></span></p>
+          <div style="margin-top:20px;display:flex;gap:10px">
+            <button class="btn btn-claim" onclick="openClaim()">Claim Item</button>
+            <button class="btn btn-close" onclick="closeModal()">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Claim modal -->
+  <div class="overlay" id="claimOverlay" style="display:none">
+    <div class="modal" style="width:640px">
+      <h3>Claim Item</h3>
+      <p style="color:var(--muted)">Answer a short verification question and upload proof of ownership (photo of ID or serial). Security will review your claim.</p>
+      <form onsubmit="submitClaim(event)" style="display:grid;gap:12px;margin-top:8px">
+        <label>Verification question: What color was the item when you lost it?</label>
+        <input id="claim-answer" required style="padding:10px;border-radius:8px;border:1px solid rgba(12,18,30,0.06)">
+        <label>Upload evidence (ID photo or serial number)</label>
+        <input id="claim-evidence" type="file" accept="image/*" required>
+        <div style="display:flex;gap:8px;justify-content:flex-end">
+          <button class="btn btn-claim" type="submit">Submit Claim</button>
+          <button class="btn btn-close" type="button" onclick="closeClaim()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+<script src="./script.js">
+  
+
+</script>
+ </body>
+</html>
