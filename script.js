@@ -1,3 +1,12 @@
+    function toggleSidebar(){
+      document.getElementById('sidebar').classList.toggle('open');
+      document.getElementById('sidebarBackdrop').classList.toggle('open');
+    }
+    function closeSidebar(){
+      document.getElementById('sidebar').classList.remove('open');
+      document.getElementById('sidebarBackdrop').classList.remove('open');
+    }
+
     const categoryImages = {
       'Electronics': 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=320&q=80',
       'Documents': 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1600&auto=format&fit=crop',

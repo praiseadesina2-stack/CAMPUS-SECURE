@@ -9,7 +9,8 @@
 </head>
 <body>
   <div class="app" role="application" aria-label="CampusSecure demo">
-    <aside class="sidebar" aria-hidden="false">
+    <aside class="sidebar" id="sidebar" aria-hidden="false">
+      <button class="sidebar-close" id="sidebarClose" onclick="closeSidebar()" aria-label="Close menu">✕</button>
       <div class="brand">
         <div class="logo">CS</div>
         <div>
@@ -18,11 +19,11 @@
         </div>
       </div>
       <nav class="menu" role="navigation" aria-label="Main navigation">
-        <button class="active" onclick="show('browse')">Dashboard</button>
-        <button onclick="show('report')">Report Found Item</button>
-        <button onclick="show('search')">Search Lost Item</button>
-        <button onclick="show('notifications')">Notifications</button>
-        <button onclick="show('profile')">Profile</button>
+        <button class="active" onclick="show('browse');closeSidebar()">Dashboard</button>
+        <button onclick="show('report');closeSidebar()">Report Found Item</button>
+        <button onclick="show('search');closeSidebar()">Search Lost Item</button>
+        <button onclick="show('notifications');closeSidebar()">Notifications</button>
+        <button onclick="show('profile');closeSidebar()">Profile</button>
       </nav>
       <div class="profile">
         <div class="avatar">PA</div>
@@ -33,8 +34,14 @@
       </div>
     </aside>
 
+    <!-- Mobile sidebar backdrop -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="closeSidebar()"></div>
+
     <main class="main" id="main">
       <div class="top">
+        <button class="hamburger" id="hamburgerBtn" onclick="toggleSidebar()" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
         <div class="search">
           <input id="q" placeholder="Search for lost items, e.g., 'black backpack', 'ID'..." oninput="filter()" />
         </div>

@@ -308,8 +308,72 @@ color: #fff;
     @media (max-width:980px){
       .app{grid-template-columns:1fr;
         min-height:640px}
-      .sidebar{display:none}
+      .sidebar{
+        display:flex;
+        position:fixed;
+        top:0; left:0;
+        height:100vh;
+        width:280px;
+        z-index:200;
+        transform:translateX(-100%);
+        transition:transform 0.28s cubic-bezier(0.4,0,0.2,1);
+        box-shadow:4px 0 32px rgba(0,0,0,0.18);
+        background:linear-gradient(180deg,#fff 0%,#f4f3ff 100%);
+        overflow-y:auto;
+      }
+      .sidebar.open{transform:translateX(0)}
+      .sidebar-backdrop{
+        display:none;
+        position:fixed;
+        inset:0;
+        background:rgba(2,6,23,0.45);
+        z-index:199;
+        backdrop-filter:blur(2px);
+      }
+      .sidebar-backdrop.open{display:block}
+      .sidebar-close{
+        display:flex;
+        align-self:flex-end;
+        margin-bottom:4px;
+        background:rgba(0,0,0,0.06);
+        border:none;
+        border-radius:8px;
+        width:34px;
+        height:34px;
+        font-size:16px;
+        cursor:pointer;
+        align-items:center;
+        justify-content:center;
+        color:#111;
+        font-weight:700;
+      }
+      .hamburger{
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        gap:5px;
+        background:none;
+        border:1px solid rgba(12,18,30,0.10);
+        border-radius:10px;
+        padding:10px;
+        cursor:pointer;
+        min-width:44px;
+        height:44px;
+      }
+      .hamburger span{
+        display:block;
+        width:20px;
+        height:2px;
+        background:#111827;
+        border-radius:2px;
+        transition:all 0.2s;
+      }
       .grid{grid-template-columns:repeat(2,1fr)}
+    }
+    @media (min-width:981px){
+      .hamburger{display:none}
+      .sidebar-close{display:none}
+      .sidebar-backdrop{display:none!important}
     }
     @media (max-width:560px){
       .grid{grid-template-columns:repeat(1,1fr)}
